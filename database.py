@@ -18,6 +18,12 @@ class Database():
         self.__types=json.loads(types)
         del types
         #
+        f=open("player.json", "r")
+        player=f.read()
+        f.close()
+        del f
+        self.__player=json.loads(player)
+        del player
 
     @property
     def pokedex(self):
@@ -27,9 +33,6 @@ class Database():
     def types(self):
         return self.__types
 
-
-db = Database()
-
-print(db.pokedex[0])
-
-print(db.types[0])
+    @property
+    def player(self):
+        return self.__player
