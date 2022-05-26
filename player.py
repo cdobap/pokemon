@@ -8,16 +8,16 @@ class Player():
         db = database.Database()
 
         name=input("your name: ")
-        for i in range(len(db.player)):
-            if name == db.player[i]["name"]:
-                exist = True
+        # for i in range(len(db.player)):
+        #     if name == db.player[i]["name"]:
+        #         exist = True
 
-        if name == db.player[i]["name"]:
-            self.__name = db.player[i]["name"]
-            self.__pokedex = db.player[i]["pokedex"]
-        else:
-            self.__name = name
-            self.__pokedex = [ randrange(1, len(db.pokedex)) for i in range(3) ]
+        # if name == db.player[i]["name"]:
+        #     self.__name = db.player[i]["name"]
+        #     self.__pokedex = db.player[i]["pokedex"]
+        # else:
+        self.__name = name
+        self.__pokedex = [ randrange(1, len(db.pokedex)) for i in range(3) ]
 
    
     @property
