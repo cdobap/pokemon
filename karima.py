@@ -15,4 +15,20 @@ class pokemon():
 
 
     pikachu=pokemon()
+
+
         
+print(pikachu.name)
+print(pikachu.hp)
+
+pikachu.set_name("Pikachu")
+
+pikachu.get_name()
+
+pikachu.attack()
+
+salameche=pokemon()
+
+salameche.attack()
+
+salameche.set_name("Salameche")
