@@ -27,8 +27,23 @@ pikachu.get_name()
 
 pikachu.attack()
 
+print(salameche.name)
+print(salameche.hp)
+
 salameche=pokemon()
 
 salameche.attack()
 
 salameche.set_name("Salameche")
+
+print(carapuce.name)
+print(carapuce.hp)
+
+
+carapuce.set_name("Carapuce")
+
+carapuce.get_name()
+
+carapuce.attack()
+
+carapuce=pokemon()
