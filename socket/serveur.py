@@ -4,7 +4,9 @@
 
 ########## import
 import socket
-import select
+# TODO import game class
+
+
 
 # define socket => pokesocket
 pokeSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,7 +28,7 @@ while True:
     print(f"Le joueur {playerIP} s'est connecté")
     # size buffer of 8K, TODO estimate size to be used
 
-    err=False
+    err=""
     try:
         # set 5s of timeout
         playerSocket.settimeout(5.0)
@@ -36,16 +38,24 @@ while True:
     except TimeoutError:
         print(f"Request from {playerIP} unavailable")
         # set error flag to true
-        err=True
+        err="Timeout"
         pass
 
     # Treat program
-    if err:
-        playerSocket.send("ERROR in data sent".encode())
+    if err != "":
+        playerSocket.send(err.encode())
     else:
         print(f"{playerMsg}")     
         playerSocket.send("pong".encode())
         print("pong sent")
-    
+
+        # TODO start poke game and player interactions
+
+        # exemple:
+        # player2=player("toto")
+        # player1=player("titi")
+
+        # game=pokegame(player1,player2)
+        # game.start()
     
     print("end while")
