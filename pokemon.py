@@ -43,6 +43,7 @@ class Pokemon():
     @hp.setter
     def hp(self, value):
         self.__hp = value
+
     @hp.deleter
     def hp(self):
         del self.__hp
@@ -74,17 +75,12 @@ class Pokemon():
         target.receive_damage(self.attack)
 
     def receive_damage(self, dmg):
-        self.hp -= dmg
+        #self.hp -= dmg
+
+        if self.hp - dmg < 0: 
+            self.hp = 0
+        else:
+            self.hp -= dmg
+
         print(self.name + " receives " + str(dmg) + " damages")
         print(self.name + " hp: " + str(self.hp))
-
-
-# a = Pokemon(1)
-
-# b = Pokemon(2)
-
-# a.attack_target(b)
-
-# a.attack_target(b)
-# a.attack_target(b)
-# a.attack_target(b)
