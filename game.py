@@ -1,3 +1,6 @@
+import imp
+from multiprocessing.spawn import import_main_path
+from socket import socket
 import database
 import player
 import pokemon
@@ -39,18 +42,27 @@ class Game():
         return 
         #return p1 if p1.activ_pokemon.speed > p2.activ_pokemon.speed else p2
 
-    def show_menu(self, player, opponent):
+    def show_menu(self, player, opponent, playerSocket:socket):
         print("--------------------------------")
+        #playerSocket.send("--------------------------------".encode())
         print("player: " + player.name)
+        #playerSocket.send(f"player: {player.name}".encode())
         print("my pokemon: " + player.activ_pokemon.name + " " + str(player.activ_pokemon.hp) + " hp")
+        #playerSocket.send(f"player: {player.activ_pokemon.name} {player.activ_pokemon.hp} hp".encode())
         #print("hp: " + str(player.activ_pokemon.hp))
         print("opponent pokemon: " + opponent.activ_pokemon.name + " " + str(opponent.activ_pokemon.hp) + " hp")
+        #playerSocket.send(f"opponent pokemon: {opponent.activ_pokemon.name} {opponent.activ_pokemon.hp} hp".encode())
         #print("hp: " + str(opponent.activ_pokemon.hp))
         if player.activ_pokemon.hp > 0:
             print("choose: 1 - attack | 2 - swap | 3 - flee")
+        #    playerSocket.send("choose: 1 - attack | 2 - swap | 3 - flee".encode())
         else:
             print("choose: 2 - swap | 3 - flee")
+        #    playerSocket.send("choose: 2 - swap | 3 - flee".encode())
         print(".........")
+        #playerSocket.send(".........".encode())
+
+        playerSocket.send(f"{player.activ_pokemon.name}'{player.activ_pokemon.hp}'{opponent.activ_pokemon.name}'{opponent.activ_pokemon.hp}".encode())
 
     def choose_action(self, action, player, opponent):    
         if action == str(1):
@@ -71,6 +83,7 @@ class Game():
             self.fight = False            
         else:
             print("you can t exit")
+        return self.fight
      
 
     def swap(self, player):   
@@ -84,54 +97,56 @@ class Game():
       
         
 
+def start(playerSocket:socket):
+
+    g = Game()
 
 
-g = Game()
+    p1 = player.Player()
+    print(p1.name)
+    print(g.show_pokemons(p1))
 
 
-p1 = player.Player()
-print(p1.name)
-print(g.show_pokemons(p1))
+    print("-----------")
+
+    p2 = player.Player()
+    print(p2.name)
+    print(g.show_pokemons(p2))
+
+    print("-----------")
+
+    g.init_battle(p1, p2)
+
+    if p1.initiative:
+        print(p1.name + " begins the battle")
+
+        while g.fight:
+            g.show_menu(p1, p2, playerSocket)
+            action = input("choose an action: ")
+            g.choose_action(action, p1, p2)
+
+            if g.fight:
+                g.show_menu(p2, p1, playerSocket)
+                action = input("choose an action: ")
+                g.choose_action(action, p2, p1)
 
 
-print("-----------")
+        
 
-p2 = player.Player()
-print(p2.name)
-print(g.show_pokemons(p2))
+    if p2.initiative:
+        print(p2.name + " begins the battle")
 
-print("-----------")
-
-g.init_battle(p1, p2)
-
-if p1.initiative:
-    print(p1.name + " begins the battle")
-
-    while g.fight:
-        g.show_menu(p1, p2)
-        action = input("choose an action: ")
-        g.choose_action(action, p1, p2)
-
-        if g.fight:
-            g.show_menu(p2, p1)
+        while g.fight:
+            g.show_menu(p2, p1, playerSocket)
             action = input("choose an action: ")
             g.choose_action(action, p2, p1)
 
+            if g.fight:
+                g.show_menu(p1, p2, playerSocket)
+                action = input("choose an action: ")
+                g.choose_action(action, p1, p2)
 
-    
-
-if p2.initiative:
-    print(p2.name + " begins the battle")
-
-    while g.fight:
-        g.show_menu(p2, p1)
-        action = input("choose an action: ")
-        g.choose_action(action, p2, p1)
-
-        if g.fight:
-            g.show_menu(p1, p2)
-            action = input("choose an action: ")
-            g.choose_action(action, p1, p2)
+    return g.fight
 
 
 

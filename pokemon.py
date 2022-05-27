@@ -7,7 +7,7 @@ class Pokemon():
         db = database.Database()
         id=id-1
         self.__id = db.pokedex[id]["id"]
-        self.__name = db.pokedex[id]["name"]["french"]
+        self.__name = db.pokedex[id]["name"]["english"]
         self.__type = db.pokedex[id]["type"]
         self.__hp = db.pokedex[id]["base"]["HP"]
         self.__attack = db.pokedex[id]["base"]["Attack"]//4

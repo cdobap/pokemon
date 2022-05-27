@@ -15,8 +15,8 @@ print(f"Connection on {playerPort}")
 #playerSocket.send("ping".encode())
 # if var is int user str(intvariable).encode
 #playerSocket.send(str(toto).encode())
-userInput=input("Veuiller entrer quelque chose: ")
-playerSocket.send(str(userInput).encode())
+# userInput=input("Veuiller entrer quelque chose: ")
+# playerSocket.send(str(userInput).encode())
 # revceive msg from server buffer
 print("ping")
 pokeMsg=playerSocket.recv(8192)

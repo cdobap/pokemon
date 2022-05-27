@@ -6,7 +6,7 @@ import json
 class Player():
 
     def __init__(self):
-        db = database.Database()        
+        db = database.Database()  
         player_in_db = False
         name=input("your name: ")
         for i in range(len(db.player)):
