@@ -1,22 +1,19 @@
+import database
 import json
 
 class Pokemon():
 
     def __init__(self, id):
-        f=open("pokedex.json", "r")
-        pokedex=f.read()
-        f.close()
-        del f
-        pokedex=json.loads(pokedex)
+        db = database.Database()
         id=id-1
-        self.__id = pokedex[id]["id"]
-        self.__name = pokedex[id]["name"]["french"]
-        self.__type = pokedex[id]["type"]
-        self.__hp = pokedex[id]["base"]["HP"]
-        self.__attack = pokedex[id]["base"]["Attack"]//5
-        self.__attackSp = pokedex[id]["base"]["Sp. Attack"]//5
-        self.__speed = pokedex[id]["base"]["Speed"]        
-        del pokedex
+        self.__id = db.pokedex[id]["id"]
+        self.__name = db.pokedex[id]["name"]["french"]
+        self.__type = db.pokedex[id]["type"]
+        self.__hp = db.pokedex[id]["base"]["HP"]
+        self.__attack = db.pokedex[id]["base"]["Attack"]//4
+        self.__attackSp = db.pokedex[id]["base"]["Sp. Attack"]//4
+        self.__speed = db.pokedex[id]["base"]["Speed"]        
+        del db
         del id
 
     @property
@@ -73,26 +70,21 @@ class Pokemon():
 
 
     def attack_target(self, target):
-        print(self.attack)
-        print(target.hp)
-        target.hp -= self.attack
+        print(self.name + " attacks " + target.name)
+        target.receive_damage(self.attack)
+
+    def receive_damage(self, dmg):
+        self.hp -= dmg
+        print(self.name + " receives " + str(dmg) + " damages")
+        print(self.name + " hp: " + str(self.hp))
 
 
+# a = Pokemon(1)
 
-a = Pokemon(1)
+# b = Pokemon(2)
 
-# print(a.id)
-# print(a.name)
-# print(a.type)
-# print(a.hp)
-# print(a.attack)
-# print(a.attackSp)
-# print(a.speed)
+# a.attack_target(b)
 
-b = Pokemon(2)
-
-a.attack_target(b)
-
-a.attack_target(b)
-a.attack_target(b)
-a.attack_target(b)
+# a.attack_target(b)
+# a.attack_target(b)
+# a.attack_target(b)

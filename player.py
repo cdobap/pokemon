@@ -1,24 +1,26 @@
 import database
+import pokemon
 from random import randrange
+import json
 
 class Player():
 
-
     def __init__(self):
-        db = database.Database()
-
+        db = database.Database()        
+        player_in_db = False
         name=input("your name: ")
-        # for i in range(len(db.player)):
-        #     if name == db.player[i]["name"]:
-        #         exist = True
+        for i in range(len(db.player)):
+            if name == db.player[i]["name"]:
+                player_in_db = True
+                j = i
 
-        # if name == db.player[i]["name"]:
-        #     self.__name = db.player[i]["name"]
-        #     self.__pokedex = db.player[i]["pokedex"]
-        # else:
-        self.__name = name
-        self.__pokedex = [ randrange(1, len(db.pokedex)) for i in range(3) ]
-
+        if player_in_db:
+            self.__name = db.player[j]["name"]
+            self.__pokedex = db.player[j]["pokedex"]
+        else:
+            self.__name = name
+            self.__pokedex = [ randrange(1, len(db.pokedex)) for i in range(3) ]
+            
    
     @property
     def name(self):
@@ -31,12 +33,23 @@ class Player():
     @pokedex.setter
     def pokedex(self, id_pokemon):
         self.__pokedex.append(id_pokemon)
-
     
-p=Player()
+    def get_pokemon(self, pkmn_id):
+        return [i for i in self.__pokemons if i.id == pkmn_id][0]
 
-print(p.name) 
-print(p.pokedex)
-p.pokedex = 4
-print(p.pokedex)
+    def get_pokemons(self):
+        return self.__pokemons
+
+    def set_pokemons(self):   
+        self.__pokemons = []
+        for i in self.__pokedex:            
+            self.__pokemons.append(pokemon.Pokemon(i))          
+
+    @property
+    def activ_pokemon(self):
+        return self.__activ_pokemon
+    
+    @activ_pokemon.setter
+    def activ_pokemon(self, activ_pokemon):
+        self.__activ_pokemon = activ_pokemon
 
