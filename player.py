@@ -17,11 +17,21 @@ class Player():
         if player_in_db:
             self.__name = db.player[j]["name"]
             self.__pokedex = db.player[j]["pokedex"]
+            self.__initiative = False
         else:
             self.__name = name
             self.__pokedex = [ randrange(1, len(db.pokedex)) for i in range(3) ]
+            self.__initiative = False
             
    
+    @property
+    def initiative(self):
+        return self.__initiative
+
+    @initiative.setter
+    def initiative(self, value):
+        self.__initiative = value
+
     @property
     def name(self):
         return self.__name
