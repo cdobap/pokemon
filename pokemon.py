@@ -10,8 +10,8 @@ class Pokemon():
         self.__name = db.pokedex[id]["name"]["french"]
         self.__type = db.pokedex[id]["type"]
         self.__hp = db.pokedex[id]["base"]["HP"]
-        self.__attack = db.pokedex[id]["base"]["Attack"]//4
-        self.__attackSp = db.pokedex[id]["base"]["Sp. Attack"]//4
+        self.__attack = db.pokedex[id]["base"]["Attack"]//3
+        self.__attackSp = db.pokedex[id]["base"]["Sp. Attack"]//3
         self.__speed = db.pokedex[id]["base"]["Speed"]        
         del db
         del id

@@ -49,6 +49,7 @@ class Game():
         if player.activ_pokemon.hp > 0:
             print("choose: 1 - attack | 2 - swap | 3 - flee")
         else:
+            print("your pokemon has been defeated, you lost it")
             print("choose: 2 - swap | 3 - flee")
         print(".........")
 
@@ -75,14 +76,17 @@ class Game():
 
     def swap(self, player):   
 
-        # print("TTTTT")
-        # print(player.pokedex)
-        # print("TTTTT")
         for i in player.get_pokemons():
             print(str(i.id) + " " + i.name + " " +str(i.hp))
-        #player.activ_pokemon(4)
-      
         
+        swap_pkmn=int(input("select pokemon id: "))
+
+        player.activ_pokemon = player.get_pokemon(swap_pkmn)
+
+        print(f"{player.activ_pokemon.name} enters in the battlefield")
+      
+    #def win_pkmn(self, player, pkmn):
+
 
 
 
@@ -143,14 +147,8 @@ if p2.initiative:
 # set activ pkm hp > 0
 
 
-# get pokedex pkmn + hp list
-# swap fonction
-
-
 # écrire dans db.player
 # change owner fonction du pkmn 
-
-
 
 # attack spe 
 
