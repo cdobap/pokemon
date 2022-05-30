@@ -49,5 +49,11 @@ Le combat continue tant qu'il reste 2 pokemons en combat et qu'aucun joueur n'a 
 
 La partie est terminé quand un joueur n'a plus aucun pokemon qui peut se battre
 
+#4 NOTES IMPORTANTES
 
+
+Pour l'instant les commandes du joueurs n'ont pas été implémentées sur le client, il faut utiliser la console du serveur.
+
+La connexion au serveur se ferme automatiquement lorsqu'aucun client ne s'est connecté dans un intervalle de 2mn.
+La connexion au serveur se ferme automatiquement au bout de 10 seconde sans recevoir de message de la part du client.
 

@@ -18,11 +18,24 @@ ipServer=''
 pokeSocket.bind((ipServer, 1443))
 pokeSocket.listen(5)
 
+
+def sendToPlayer(var:str):
+    try:
+        playerSocket.send(var.encode())
+    except BrokenPipeError:
+        print("Client unreachable")
+        pass
+
 # definitions of the distant players for the pokeserver
 while True:
 
-    # accept connections from players
-    (playerSocket, playerIP)=pokeSocket.accept()
+    # accept connections from players, closes after 2mn without connection
+    try:
+        pokeSocket.settimeout(120)
+        (playerSocket, playerIP)=pokeSocket.accept()
+    except TimeoutError:
+        print("No connected client: server closes")
+        exit()
     #playerSocket.setblocking(0)
 
     # Now, use the socket
@@ -32,7 +45,7 @@ while True:
 
     err=""
     try:
-        # set 5s of timeout
+        # set 10s of timeout
         playerSocket.settimeout(10)
         # if msgOk[0]:
         playerMsg=playerSocket.recv(8192)
@@ -42,7 +55,6 @@ while True:
         print(f"Request from {playerIP} unavailable")
         # set error flag to true
         err="Timeout"
-        pass
 
 
     # Treat program
@@ -50,7 +62,7 @@ while True:
         playerSocket.send(err.encode())
     else:
         print(f"{playerMsg}")     
-        playerSocket.send("pong".encode())
+        sendToPlayer("pong")
         print("pong sent")
 
         # TODO start poke game and player interactions
@@ -60,7 +72,7 @@ while True:
         # if stop == False:
 
         if game.start(playerSocket) == False:
-            playerSocket.send("Game Stop".encode())
+            sendToPlayer("Game Stop")
 
     
-    print("end while")
+    print("Looking for a new connection")

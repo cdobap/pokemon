@@ -8,7 +8,7 @@ import pokemon
 serverIP = "192.168.1.15"
 playerPort = 1443
 
-def show_menu(Rxdata:str,p1:Player):
+def gameDisplay(Rxdata:str,p1:Player):
     # TODO a couper
     print(f"rxdata: {Rxdata}")
     data=Rxdata.split("'")
@@ -69,7 +69,7 @@ while pokeMsg!="Game Stop" and pokeMsg!="":
     pokeMsg=playerSocket.recv(8192)
     pokeMsg=pokeMsg.decode("utf-8")
     #print(pokeMsg)
-    show_menu(pokeMsg,player1)
+    gameDisplay(pokeMsg,player1)
 
 # close connection
 print("Closing connection")
