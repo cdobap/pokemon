@@ -4,9 +4,9 @@
 
 ########## import
 import socket
+import threading
 import player
 import game
-# TODO import game class
 
 
 
@@ -37,6 +37,7 @@ while True:
         # if msgOk[0]:
         playerMsg=playerSocket.recv(8192)
     # if timeout is reached
+    # TODO treat other errors
     except TimeoutError:
         print(f"Request from {playerIP} unavailable")
         # set error flag to true

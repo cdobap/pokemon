@@ -41,7 +41,13 @@ player2=Player()
 # define socket
 playerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # connect to server
-playerSocket.connect((playerIP, playerPort))
+
+try:
+    playerSocket.connect((playerIP, playerPort))
+except ConnectionError:
+    print("Connexion unavailable try later")
+    exit()
+    
 print(f"Connection on {playerPort}")
 # always send "a_string".encode() to server
 playerSocket.send("ping".encode())
