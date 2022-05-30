@@ -40,6 +40,7 @@ class Game():
         #return p1 if p1.activ_pokemon.speed > p2.activ_pokemon.speed else p2
 
     def show_menu(self, player, opponent):
+        self.win(player, opponent)        
         print("--------------------------------")
         print("player: " + player.name)
         print("my pokemon: " + player.activ_pokemon.name + " " + str(player.activ_pokemon.hp) + " hp")
@@ -85,7 +86,16 @@ class Game():
 
         print(f"{player.activ_pokemon.name} enters in the battlefield")
       
-    #def win_pkmn(self, player, pkmn):
+    def win(self, player, opponent):
+        pkmn_alive = 0
+        pkdx = player.get_pokemons()
+        for i in pkdx:          
+            if i.hp > 0:
+                pkmn_alive += 1
+        if pkmn_alive == 0:
+            print(f"{opponent.name} win the game")
+            self.fight = False
+
 
 
 
@@ -111,12 +121,12 @@ g.init_battle(p1, p2)
 if p1.initiative:
     print(p1.name + " begins the battle")
 
-    while g.fight:
+    while g.fight:        
         g.show_menu(p1, p2)
         action = input("choose an action: ")
         g.choose_action(action, p1, p2)
 
-        if g.fight:
+        if g.fight:         
             g.show_menu(p2, p1)
             action = input("choose an action: ")
             g.choose_action(action, p2, p1)
@@ -127,12 +137,12 @@ if p1.initiative:
 if p2.initiative:
     print(p2.name + " begins the battle")
 
-    while g.fight:
+    while g.fight:   
         g.show_menu(p2, p1)
         action = input("choose an action: ")
         g.choose_action(action, p2, p1)
 
-        if g.fight:
+        if g.fight:          
             g.show_menu(p1, p2)
             action = input("choose an action: ")
             g.choose_action(action, p1, p2)
