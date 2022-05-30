@@ -1,34 +1,38 @@
 ########### imports
+from base64 import decode
 import socket
 from player import Player
 import pokemon
 
 # player information -> on BDD ?
-playerIP = "192.168.1.15"
+serverIP = "192.168.1.15"
 playerPort = 1443
 
 def show_menu(Rxdata:str,p1:Player):
     # TODO a couper
     print(f"rxdata: {Rxdata}")
     data=Rxdata.split("'")
-    print(f"datasanssplit {data}")
-    data=data[1].split(";")
     print(f"data {data}")
+    #data=data[1].split(";")
+    #print(f"data {data}")
     
-    pokemon=data[0][2:]
-    pokemonhp=data[1]
-    advpokemon=data[2]
-    advpokemonhp=data[3]
-    print("--------------------------------")
-    print(f"player: {player1.name} ")    
-    print(f"my pokemon: {pokemon} {pokemonhp} hp")
-    print(f"opponent pokemon: {advpokemon} {advpokemonhp} hp")
-    if int(pokemonhp) > 0:
-        print("choose: 1 - attack | 2 - swap | 3 - flee")    
+    if data[0] != "Game Stop":
+        pokemon=data[0]
+        pokemonhp=data[1]
+        advpokemon=data[2]
+        advpokemonhp=data[3]
+        print("--------------------------------")
+        print(f"player: {player1.name} ")    
+        print(f"my pokemon: {pokemon} {pokemonhp} hp")
+        print(f"opponent pokemon: {advpokemon} {advpokemonhp} hp")
+        if int(pokemonhp) > 0:
+            print("choose: 1 - attack | 2 - swap | 3 - flee")    
+        else:
+            print("choose: 2 - swap | 3 - flee")
+        
+        print(".........")
     else:
-        print("choose: 2 - swap | 3 - flee")
-    
-    print(".........")
+        print("Game terminated")
 
 
 #### TODO : créer les inputs client 
@@ -43,7 +47,7 @@ playerSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # connect to server
 
 try:
-    playerSocket.connect((playerIP, playerPort))
+    playerSocket.connect((serverIP, playerPort))
 except ConnectionError:
     print("Connexion unavailable try later")
     exit()
@@ -58,12 +62,14 @@ playerSocket.send("ping".encode())
 # revceive msg from server buffer
 print("ping")
 pokeMsg=playerSocket.recv(8192)
+pokeMsg=pokeMsg.decode("utf-8")
 print(f"{pokeMsg}")
 
-while str(pokeMsg)!="b'Game Stop'" and str(pokeMsg)!="b''":
+while pokeMsg!="Game Stop" and pokeMsg!="":
     pokeMsg=playerSocket.recv(8192)
+    pokeMsg=pokeMsg.decode("utf-8")
     #print(pokeMsg)
-    show_menu(str(pokeMsg),player1)
+    show_menu(pokeMsg,player1)
 
 # close connection
 print("Closing connection")
